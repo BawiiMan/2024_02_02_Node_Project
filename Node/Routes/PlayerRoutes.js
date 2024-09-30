@@ -1,0 +1,19 @@
+const express = require('express');
+const fs = require('fs');       //fs 모듈 추가
+const router = express.Router();
+
+//초기 자원 설정
+const initalResources = {
+    metal : 500,
+    crystal : 300,
+    deuterirum : 100,
+}
+
+//플레이어 등록
+//router.post()
+
+//글로벌 플레이어 객체 초기화
+global.players = {};        //글로벌 객체 초기화
+
+
+module.exports = router;        //라우터 내보내기

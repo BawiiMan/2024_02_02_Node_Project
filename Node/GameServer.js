@@ -48,7 +48,7 @@ app.get('/inventory/:playerId', async (req, res) => {
     try
     {
         const[inventory] = await pool.query(
-            'SELECT i.* inv.quantity FROM inventories inv JOIN items i ON inv.item_id = i.item_id WHERE inv.player_id = ?',
+            'SELECT i.*, inv.quantity FROM inventories inv JOIN items i ON inv.item_id = i.item_id WHERE inv.player_id = ?',
             [req.params.playerId]
         );
         res.json(inventory);
@@ -64,7 +64,7 @@ app.get('/quests/:playerId', async (req, res) => {
     try
     {
         const[quests] = await pool.query(
-            'SELECT q.* pq.status FROM player_quests pq JOIN quests q ON pq.quest_id = q.quest_id WHERE pq.player_id = ?',
+            'SELECT q.*, pq.status FROM player_quests pq JOIN quests q ON pq.quest_id = q.quest_id WHERE pq.player_id = ?',
             [req.params.playerId]
         );
         res.json(quests);
@@ -81,7 +81,7 @@ app.get('/quests/status', async (req, res) => {
     try
     {
         await pool.query(
-            `UPDATE player_quests SET status = ? , complete_at = IF(? = "완료, CURRENT_TIMESTAMP, null) WHERE player_id = ?
+            `UPDATE player_quests SET status = ? , complete_at = IF(? = "완료", CURRENT_TIMESTAMP, null) WHERE player_id = ?
             AND quest_id = ?`,
             [status, status,playerId, questId]
         );
